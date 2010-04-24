@@ -1,0 +1,38 @@
+---
+author: ~
+build_requires:
+  ExtUtils::MakeMaker: 6.42
+  Test::More: 0
+configure_requires:
+  ExtUtils::MakeMaker: 6.42
+distribution_type: module
+generated_by: 'Module::Install version 0.91'
+license: GPL
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: LedgerSMB
+no_index:
+  directory:
+    - inc
+    - t
+requires:
+  Config::Std: 0
+  Cwd: 0
+  DBD::Pg: 0
+  DBI: 1.00
+  Data::Dumper: 0
+  Digest::MD5: 0
+  Encode: 0
+  HTML::Entities: 0
+  IO::File: 0
+  Locale::Country: 0
+  Locale::Language: 0
+  Locale::Maketext: 0
+  Locale::Maketext::Lexicon: 0.56
+  MIME::Base64: 0
+  MIME::Lite: 0
+  Math::BigFloat: 0
+  Time::Local: 0
+  perl: 5.8.1
+version: 1.2.15
