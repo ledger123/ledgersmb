@@ -38,7 +38,10 @@ CREATE TABLE users_conf(id integer primary key references users(id) deferrable i
                         tel text,
                         templates text,
                         timeout numeric,
-                        vclimit numeric);
+                        vclimit numeric,
+			department_id integer,
+			warehouse_id integer
+);
 
 COMMENT ON TABLE users_conf IS 'This is a completely dumb table that is a place holder to get usersconf into the database. Next major release will have a much more sane implementation';
 COMMENT ON COLUMN users_conf.id IS 'Yes primary key with a FOREIGN KEY to users(id) is correct'; 
