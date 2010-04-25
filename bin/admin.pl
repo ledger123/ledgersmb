@@ -362,6 +362,36 @@ sub form_header {
 
         # strip basedir from templates directory
         $myconfig->{templates} =~ s/^${LedgerSMB::Sysconfig::templates}\///;
+
+	my $dbh = DBI->connect(
+           $myconfig->{dbconnect}, $myconfig->{dbuser},
+           $myconfig->{dbpasswd}, { AutoCommit => 0 }
+	) or die($DBI::errstr);
+	$dbh->{pg_enable_utf8} = 1;
+	my $form = {dbh => $dbh};
+	bless($form, 'Form');
+
+	$form->all_departments(\%myconfig);
+	if ( @{ $form->{all_department} } ) {
+          $form->{selectdepartment} = "<option>\n";
+          $form->{department} = "$form->{department}--$form->{department_id}" if $form->{department_id};
+
+          for ( @{ $form->{all_department} } ) {
+            if ($myconfig->{department_id} == $_->{id}){
+              $form->{selectdepartment} .= qq|<option value="$_->{description}--$_->{id}" selected>$_->{description}\n|;
+            } else {
+              $form->{selectdepartment} .= qq|<option value="$_->{description}--$_->{id}">$_->{description}\n|;
+	    }
+          }
+        }
+
+	$department = qq|
+              <tr>
+	        <th align="right" nowrap>| . $locale->text('Department') . qq|</th>
+		<td><select name="department">$form->{selectdepartment}</select></td>
+	      </tr>
+	| if $form->{selectdepartment};
+
     }
 
     foreach $item (qw(mm-dd-yy mm/dd/yy dd-mm-yy dd/mm/yy dd.mm.yy yyyy-mm-dd))
@@ -541,6 +571,7 @@ sub form_header {
 						<th align="right">| . $locale->text('Address') . qq|</th>
 						<td><textarea name="address" rows="4" cols="35">$myconfig->{address}</textarea></td>
 					</tr>
+					$department
 				</table>
 			</td>
 			<td>
@@ -848,6 +879,9 @@ sub save {
     $form->{dbname}   = $form->{"$form->{dbdriver}_dbname"};
     $form->isblank( "dbname", $locale->text('Dataset missing!') );
     $form->isblank( "dbuser", $locale->text('Database User missing!') );
+
+    ($null, $form->{department_id}) = split /--/, $form->{department};
+    $form->{department_id} *= 1;
 
     foreach $item ( keys %{$form} ) {
         $myconfig->{$item} = $form->{$item};

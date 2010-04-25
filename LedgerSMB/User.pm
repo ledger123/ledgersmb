@@ -138,7 +138,7 @@ sub fetch_config {
 											   email, fax, menuwidth, name, numberformat, 
 											   password, print, printer, role, sid, 
 											   signature, stylesheet, tel, templates, 
-											   timeout, vclimit, u.username
+											   timeout, vclimit, u.username, uc.department_id
 										  FROM users_conf as uc, users as u
 										 WHERE u.username =  ?
 										   AND u.id = uc.id;"
@@ -725,7 +725,7 @@ sub save_member {
 												   print = ?, printer = ?, role = ?,
 												   sid = ?, signature = ?, stylesheet = ?,
 												   tel = ?, templates = ?, timeout = ?,
-												   vclimit = ?
+												   vclimit = ?, department_id = ?
 											 WHERE id = ?;"
         );
 
@@ -744,7 +744,8 @@ sub save_member {
             $self->{sid},            $self->{signature},
             $self->{stylesheet},     $self->{tel},
             $self->{templates},      $self->{timeout},
-            $self->{vclimit},        $userID
+            $self->{vclimit},        $self->{department_id},
+            $userID
         );
 
         if ( $oldPassword ne $self->{password} ) {
