@@ -54,12 +54,14 @@ sub new {
 												   dateformat, dbdriver, dbhost, dbname, 
 												   dboptions, dbpasswd, dbport, dbuser, 
 												   email, fax, menuwidth, name, numberformat, 
-												   password, print, printer, role, sid, 
+												   password, print, printer, uc.role, sid, 
 												   signature, stylesheet, tel, templates, 
-												   timeout, vclimit, u.username
-											  FROM users_conf as uc, users as u
-											 WHERE u.username =  ?
-											   AND u.id = uc.id;"
+												   timeout, vclimit, u.username,
+												   uc.department_id, d.description AS department
+											  FROM users_conf as uc
+											  JOIN users u ON (u.id = uc.id)
+											  LEFT JOIN department d ON (d.id = uc.department_id),
+											 WHERE u.username =  ?"
         );
 
         $fetchUserPrefs->execute($login);
@@ -136,12 +138,14 @@ sub fetch_config {
 											   dateformat, dbdriver, dbhost, dbname, 
 											   dboptions, dbpasswd, dbport, dbuser, 
 											   email, fax, menuwidth, name, numberformat, 
-											   password, print, printer, role, sid, 
+											   password, print, printer, uc.role, sid, 
 											   signature, stylesheet, tel, templates, 
-											   timeout, vclimit, u.username, uc.department_id
-										  FROM users_conf as uc, users as u
-										 WHERE u.username =  ?
-										   AND u.id = uc.id;"
+											   timeout, vclimit, u.username,
+											   uc.department_id, d.description AS department
+										  FROM users_conf uc
+										  JOIN users u ON (u.id = uc.id)
+										  LEFT JOIN department d ON (d.id = uc.department_id)
+										 WHERE u.username =  ?"
     );
 
     $fetchUserPrefs->execute($login);
