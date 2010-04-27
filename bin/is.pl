@@ -144,6 +144,9 @@ qq|<option value="$_->{projectnumber}--$_->{id}">$_->{projectnumber}\n|;
 
     # departments
     if ( @{ $form->{all_department} } ) {
+    if ($myconfig{department_id} and $myconfig{role} eq 'user'){
+    	$form->{selectdepartment} = qq|<option value="$myconfig{department}--$myconfig{department_id}">$myconfig{department}\n|;
+    } else {
         $form->{selectdepartment} = "<option>\n";
         $form->{department} = "$form->{department}--$form->{department_id}"
           if $form->{department_id};
@@ -152,6 +155,7 @@ qq|<option value="$_->{projectnumber}--$_->{id}">$_->{projectnumber}\n|;
             $form->{selectdepartment} .=
 qq|<option value="$_->{description}--$_->{id}">$_->{description}\n|;
         }
+    }
     }
 
     $form->{employee} = "$form->{employee}--$form->{employee_id}";

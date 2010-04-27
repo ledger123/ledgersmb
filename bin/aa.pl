@@ -184,6 +184,9 @@ sub create_links {
 
     # departments
     if ( @{ $form->{all_department} } ) {
+    if ($myconfig{department_id} and $myconfig{role} eq 'user'){
+    	$form->{selectdepartment} = qq|<option value="$myconfig{department}--$myconfig{department_id}">$myconfig{department}\n|;
+    } else {
         $form->{selectdepartment} = "<option>\n";
         $form->{department} = "$form->{department}--$form->{department_id}"
           if $form->{department_id};
@@ -192,6 +195,7 @@ sub create_links {
             $form->{selectdepartment} .=
 qq|<option value="$_->{description}--$_->{id}">$_->{description}\n|;
         }
+    }
     }
 
     $form->{employee} = "$form->{employee}--$form->{employee_id}";
@@ -1163,13 +1167,16 @@ sub search {
 
     # departments
     if ( @{ $form->{all_department} } ) {
+    if ($myconfig{department_id} and $myconfig{role} eq 'user'){
+    	$form->{selectdepartment} = qq|<option value="$myconfig{department}--$myconfig{department_id}">$myconfig{department}\n|;
+    } else {
         $form->{selectdepartment} = "<option>\n";
 
         for ( @{ $form->{all_department} } ) {
             $form->{selectdepartment} .=
 qq|<option value="$_->{description}--$_->{id}">$_->{description}\n|;
         }
-
+    }
         $l_department =
           qq|<input name="l_department" class="checkbox" type="checkbox" value="Y"> |
           . $locale->text('Department');
