@@ -49,19 +49,19 @@ sub new {
 
         # for now, this is querying the table directly... ugly
         my $fetchUserPrefs = $dbh->prepare(
-            "SELECT acs, address, businessnumber,
-												   company, countrycode, currency,
-												   dateformat, dbdriver, dbhost, dbname, 
-												   dboptions, dbpasswd, dbport, dbuser, 
-												   email, fax, menuwidth, name, numberformat, 
-												   password, print, printer, uc.role, sid, 
-												   signature, stylesheet, tel, templates, 
-												   timeout, vclimit, u.username,
-												   uc.department_id, d.description AS department
-											  FROM users_conf as uc
-											  JOIN users u ON (u.id = uc.id)
-											  LEFT JOIN department d ON (d.id = uc.department_id),
-											 WHERE u.username =  ?"
+          "SELECT acs, address, businessnumber,
+		   company, countrycode, currency,
+		   dateformat, dbdriver, dbhost, dbname, 
+		   dboptions, dbpasswd, dbport, dbuser, 
+		   email, fax, menuwidth, name, numberformat, 
+		   password, print, printer, uc.role, sid, 
+		   signature, stylesheet, tel, templates, 
+		   timeout, vclimit, u.username,
+		   uc.department_id, d.description AS department
+	  FROM users_conf as uc
+	  JOIN users u ON (u.id = uc.id)
+	  LEFT JOIN department d ON (d.id = uc.department_id)
+	  WHERE u.username =  ?"
         );
 
         $fetchUserPrefs->execute($login);
@@ -134,18 +134,18 @@ sub fetch_config {
     # for now, this is querying the table directly... ugly
     my $fetchUserPrefs = $dbh->prepare(
         "SELECT acs, address, businessnumber,
-											   company, countrycode, currency,
-											   dateformat, dbdriver, dbhost, dbname, 
-											   dboptions, dbpasswd, dbport, dbuser, 
-											   email, fax, menuwidth, name, numberformat, 
-											   password, print, printer, uc.role, sid, 
-											   signature, stylesheet, tel, templates, 
-											   timeout, vclimit, u.username,
-											   uc.department_id, d.description AS department
-										  FROM users_conf uc
-										  JOIN users u ON (u.id = uc.id)
-										  LEFT JOIN department d ON (d.id = uc.department_id)
-										 WHERE u.username =  ?"
+	   company, countrycode, currency,
+	   dateformat, dbdriver, dbhost, dbname, 
+	   dboptions, dbpasswd, dbport, dbuser, 
+	   email, fax, menuwidth, name, numberformat, 
+	   password, print, printer, uc.role, sid, 
+	   signature, stylesheet, tel, templates, 
+	   timeout, vclimit, u.username,
+	   uc.department_id, d.description AS department
+	  FROM users_conf uc
+	  JOIN users u ON (u.id = uc.id)
+	  LEFT JOIN department d ON (d.id = uc.department_id)
+	  WHERE u.username =  ?"
     );
 
     $fetchUserPrefs->execute($login);
@@ -719,18 +719,18 @@ sub save_member {
         # for now, this is updating the table directly... ugly
         my $userConfUpdate = $dbh->prepare(
             "UPDATE users_conf
-											   SET acs = ?, address = ?, businessnumber = ?,
-												   company = ?, countrycode = ?, currency = ?,
-												   dateformat = ?, dbdriver = ?,
-												   dbhost = ?, dbname = ?, dboptions = ?, 
-												   dbpasswd = ?, dbport = ?, dbuser = ?,
-												   email = ?, fax = ?, menuwidth = ?,
-												   name = ?, numberformat = ?,
-												   print = ?, printer = ?, role = ?,
-												   sid = ?, signature = ?, stylesheet = ?,
-												   tel = ?, templates = ?, timeout = ?,
-												   vclimit = ?, department_id = ?
-											 WHERE id = ?;"
+		   SET acs = ?, address = ?, businessnumber = ?,
+		   company = ?, countrycode = ?, currency = ?,
+		   dateformat = ?, dbdriver = ?,
+		   dbhost = ?, dbname = ?, dboptions = ?, 
+		   dbpasswd = ?, dbport = ?, dbuser = ?,
+		   email = ?, fax = ?, menuwidth = ?,
+		   name = ?, numberformat = ?,
+		   print = ?, printer = ?, role = ?,
+		   sid = ?, signature = ?, stylesheet = ?,
+		   tel = ?, templates = ?, timeout = ?,
+		   vclimit = ?, department_id = ?
+		 WHERE id = ?;"
         );
 
         $userConfUpdate->execute(
@@ -759,8 +759,8 @@ sub save_member {
 
             $userConfUpdate = $dbh->prepare(
                 "UPDATE users_conf
-												SET password = md5(?)
-											  WHERE id = ?"
+		SET password = md5(?)
+		  WHERE id = ?"
             );
 
             $userConfUpdate->execute( $self->{password}, $userID );
@@ -772,16 +772,16 @@ sub save_member {
 
         my $userConfInsert = $dbh->prepare(
             "INSERT INTO users_conf(acs, address, businessnumber,
-																   company, countrycode, currency,
-																   dateformat, dbdriver,
-																   dbhost, dbname, dboptions, dbpasswd,
-																   dbport, dbuser, email, fax, menuwidth,
-																   name, numberformat, print, printer, role, 
-																   sid, signature, stylesheet, tel, templates, 
-																   timeout, vclimit, id, password)
-											VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
-												   ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
-												   ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, md5(?));"
+		   company, countrycode, currency,
+		   dateformat, dbdriver,
+		   dbhost, dbname, dboptions, dbpasswd,
+		   dbport, dbuser, email, fax, menuwidth,
+		   name, numberformat, print, printer, role, 
+		   sid, signature, stylesheet, tel, templates, 
+		   timeout, vclimit, id, password)
+		VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+		   ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+		   ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, md5(?));"
         );
 
         $userConfInsert->execute(
