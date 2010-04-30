@@ -312,6 +312,9 @@ qq|<input name="l_description" class=checkbox type=checkbox value=Y checked> |
     push @a,
       qq|<input name="l_gifi_accno" class=checkbox type=checkbox value=Y> |
       . $locale->text('GIFI');
+    push @a, 
+      qq|<input name="l_accdescription" class=checkbox type=checkbox value=Y> |
+      . $locale->text('Account Description');
 
     $form->header;
 
@@ -570,14 +573,14 @@ sub generate_report {
 
     @columns =
       $form->sort_columns(
-        qw(transdate id reference description notes source memo debit credit accno gifi_accno department)
+        qw(transdate id reference description notes source memo debit credit accno accdescription gifi_accno department)
       );
     pop @columns if $form->{department};
 
     if ( $form->{link} =~ /_paid/ ) {
         @columns =
           $form->sort_columns(
-            qw(transdate id reference description notes source memo cleared debit credit accno gifi_accno)
+            qw(transdate id reference description notes source memo cleared debit credit accno accdescription gifi_accno)
           );
         $form->{l_cleared} = "Y";
     }
@@ -643,6 +646,10 @@ sub generate_report {
     $column_header{accno} =
         "<th><a class=listheading href=$href&sort=accno>"
       . $locale->text('Account')
+      . "</a></th>";
+    $column_header{accdescription} = 
+	"<th><a class=listheading href=$href&sort=accdescription>"
+      . $locale->text('Account Description')
       . "</a></th>";
     $column_header{gifi_accno} =
         "<th><a class=listheading href=$href&sort=gifi_accno>"
@@ -751,6 +758,10 @@ sub generate_report {
 
         $column_data{accno} =
 "<td><a href=$href&accno=$ref->{accno}&callback=$callback>$ref->{accno}</a></td>";
+
+        $column_data{accdescription} = 
+"<td>$ref->{accdescription}</td>";
+
         $column_data{gifi_accno} =
 "<td><a href=$href&gifi_accno=$ref->{gifi_accno}&callback=$callback>$ref->{gifi_accno}</a>&nbsp;</td>";
         $column_data{balance} = "<td align=right>"
