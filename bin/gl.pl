@@ -121,12 +121,16 @@ sub add {
 
     # departments
     if ( @{ $form->{all_department} } ) {
+    if ($myconfig{department_id} and $myconfig{role} eq 'user'){
+    	$form->{selectdepartment} = qq|<option value="$myconfig{department}--$myconfig{department_id}">$myconfig{department}\n|;
+    } else {
         $form->{selectdepartment} = "<option>\n";
 
         for ( @{ $form->{all_department} } ) {
             $form->{selectdepartment} .=
 qq|<option value="$_->{description}--$_->{id}">$_->{description}\n|;
         }
+    }
     }
 
     &display_form(1);
@@ -199,12 +203,16 @@ qq|<option value="$_->{projectnumber}--$_->{id}">$_->{projectnumber}\n|;
 
     # departments
     if ( @{ $form->{all_department} } ) {
+    if ($myconfig{department_id} and $myconfig{role} eq 'user'){
+    	$form->{selectdepartment} = qq|<option value="$myconfig{department}--$myconfig{department_id}">$myconfig{department}\n|;
+    } else {
         $form->{department} = "$form->{department}--$form->{department_id}";
         $form->{selectdepartment} = "<option>\n";
         for ( @{ $form->{all_department} } ) {
             $form->{selectdepartment} .=
 qq|<option value="$_->{description}--$_->{id}">$_->{description}\n|;
         }
+    }
     }
 
 }
@@ -218,12 +226,15 @@ sub search {
 
     # departments
     if ( @{ $form->{all_department} } ) {
+    if ($myconfig{department_id} and $myconfig{role} eq 'user'){
+    	$form->{selectdepartment} = qq|<option value="$myconfig{department}--$myconfig{department_id}">$myconfig{department}\n|;
+    } else {
         $form->{selectdepartment} = "<option>\n";
         for ( @{ $form->{all_department} } ) {
             $form->{selectdepartment} .=
 qq|<option value="$_->{description}--$_->{id}">$_->{description}\n|;
         }
-
+    }
         $l_department =
           qq|<input name="l_department" class=checkbox type=checkbox value=Y> |
           . $locale->text('Department');

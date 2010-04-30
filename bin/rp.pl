@@ -127,12 +127,16 @@ sub report {
     $form->all_departments( \%myconfig, undef,
         $report{ $form->{report} }->{vc} );
     if ( @{ $form->{all_department} } ) {
+    if ($myconfig{department_id} and $myconfig{role} eq 'user'){
+    	$form->{selectdepartment} = qq|<option value="$myconfig{department}--$myconfig{department_id}">$myconfig{department}\n|;
+    } else {
         $form->{selectdepartment} = "<option>\n";
 
         for ( @{ $form->{all_department} } ) {
             $form->{selectdepartment} .=
 qq|<option value="$_->{description}--$_->{id}">$_->{description}\n|;
         }
+    }
     }
 
     $department = qq|

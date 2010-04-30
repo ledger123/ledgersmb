@@ -105,6 +105,9 @@ sub payment {
 
     # departments
     if ( @{ $form->{all_department} } ) {
+    if ($myconfig{department_id} and $myconfig{role} eq 'user'){
+    	$form->{selectdepartment} = qq|<option value="$myconfig{department}--$myconfig{department_id}">$myconfig{department}\n|;
+    } else {
         $form->{selectdepartment} = "<option>\n";
         $form->{department} = "$form->{department}--$form->{department_id}"
           if $form->{department};
@@ -113,6 +116,7 @@ sub payment {
             $form->{selectdepartment} .=
 qq|<option value="$_->{description}--$_->{id}">$_->{description}\n|;
         }
+    }
     }
 
     if ( @{ $form->{all_language} } ) {
@@ -197,6 +201,9 @@ sub payments {
 
     # departments
     if ( @{ $form->{all_department} } ) {
+    if ($myconfig{department_id} and $myconfig{role} eq 'user'){
+    	$form->{selectdepartment} = qq|<option value="$myconfig{department}--$myconfig{department_id}">$myconfig{department}\n|;
+    } else {
         $form->{selectdepartment} = "<option>\n";
         $form->{department} = "$form->{department}--$form->{department_id}"
           if $form->{department};
@@ -205,6 +212,7 @@ sub payments {
             $form->{selectdepartment} .=
 qq|<option value="$_->{description}--$_->{id}">$_->{description}\n|;
         }
+    }
     }
 
     $form->{selectaccount} = "";
