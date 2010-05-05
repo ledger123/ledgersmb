@@ -1036,7 +1036,6 @@ sub search {
           <th align=right nowrap>| . $locale->text('Serial Number') . qq|</th>
           <td><input name=serialnumber size=20></td>
 |;
-
     $orphaned = qq|
             <input name=itemstatus class=radio type=radio value=orphaned>&nbsp;|
       . $locale->text('Orphaned');
@@ -1482,6 +1481,7 @@ sub generate_report {
     }
     if ( $form->{bought} ) {
         $form->{l_invnumber} = "Y";
+        $form->{l_transdate} = "Y";
         $callback .= "&bought=$form->{bought}";
         $option   .= $locale->text('Vendor Invoice') . " : ";
     }
@@ -1603,7 +1603,7 @@ sub generate_report {
 
     @columns =
       $form->sort_columns(
-        qw(partnumber description notes assemblypartnumber partsgroup make model bin onhand perassembly rop unit listprice linetotallistprice sellprice linetotalsellprice lastcost linetotallastcost lastcostmarkup avgcost linetotalavgcost avgcostmarkup curr priceupdate weight image drawing microfiche invnumber ordnumber quonumber name employee serialnumber warehouse)
+        qw(partnumber description notes assemblypartnumber partsgroup make model bin onhand perassembly rop unit listprice linetotallistprice sellprice linetotalsellprice lastcost linetotallastcost lastcostmarkup avgcost linetotalavgcost avgcostmarkup curr priceupdate weight image drawing microfiche invnumber transdate ordnumber quonumber name employee serialnumber warehouse)
       );
     unshift @columns, "runningnumber";
 
@@ -1779,6 +1779,10 @@ qq|<th nowrap colspan=$colspan><a class=listheading href=$href&sort=partnumber>|
     $column_header{quonumber} =
         qq|<th nowrap><a class=listheading href=$href&sort=quonumber>|
       . $locale->text('Quotation')
+      . qq|</a></th>|;
+    $column_header{transdate} =
+        qq|<th nowrap><a class=listheading href=$href&sort=transdate>|
+      . $locale->text('Invoice Date')
       . qq|</a></th>|;
 
     $column_header{name} =
@@ -2161,6 +2165,7 @@ qq|<button class="submit" type="submit" name="action" value="add_labor_overhead"
           ? "<td><a href=$ref->{module}.pl?action=edit&type=$ref->{type}&id=$ref->{trans_id}&path=$form->{path}&login=$form->{login}&sessionid=$form->{sessionid}&callback=$callback>$ref->{quonumber}&nbsp;</a></td>"
           : "<td>$ref->{quonumber}&nbsp;</td>";
 
+        $column_data{transdate} = "<td>$ref->{transdate}&nbsp;</td>";
         $column_data{name} = "<td>$ref->{name}&nbsp;</td>";
 
         $column_data{image} =

@@ -1198,7 +1198,7 @@ sub all_parts {
 				p.weight, p.avgcost, p.priceupdate, p.image, 
 				p.drawing, p.microfiche, p.assembly, 
 				pg.partsgroup, a.invnumber, a.ordnumber, 
-				a.quonumber, i.trans_id, ct.name, 
+				a.quonumber, i.trans_id, ct.name, a.transdate,
 				e.name AS employee, a.curr, a.till, p.notes
 				$makemodelfld|;
 
