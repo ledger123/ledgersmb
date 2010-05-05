@@ -1193,7 +1193,7 @@ sub all_parts {
 
             my $flds = qq|
 				p.id, p.partnumber, i.description, 
-				i.serialnumber, i.qty AS onhand, i.unit, p.bin,
+				i.serialnumber, i.qty * -1 AS onhand, i.unit, p.bin,
 				i.sellprice, p.listprice, p.lastcost, p.rop, 
 				p.weight, p.avgcost, p.priceupdate, p.image, 
 				p.drawing, p.microfiche, p.assembly, 
@@ -1204,7 +1204,7 @@ sub all_parts {
 
             if ( $form->{bought} ) {
                 my $rflds = $flds;
-                $rflds =~ s/i.qty AS onhand/i.qty * -1 AS onhand/;
+                # $rflds =~ s/i.qty AS onhand/i.qty * -1 AS onhand/;
 
                 $query = qq|
 					   SELECT $rflds, 'ir' AS module, 
