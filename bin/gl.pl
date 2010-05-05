@@ -334,6 +334,10 @@ qq|<input name="l_description" class=checkbox type=checkbox value=Y checked> |
     <td>
       <table>
 	<tr>
+	  <th align=right>| . $locale->text('Account') . qq|</th>
+	  <td><input name=accno size=20></td>
+	  </tr>
+	  <tr>
 	  <th align=right>| . $locale->text('Reference') . qq|</th>
 	  <td><input name=reference size=20></td>
 
